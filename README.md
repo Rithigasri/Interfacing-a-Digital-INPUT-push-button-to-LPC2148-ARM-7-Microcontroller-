@@ -1,14 +1,15 @@
-# Interfacing-a-Digital-INPUT-push-button-to-LPC2148-ARM-7-Microcontroller-
-Name :
-Roll no 
-Date of experiment :
+# EXPERIMENT 03:INTERFACING A DIGITAL INPUT PUSH BUTTON TO LPC2148 ARM 7 MICROCONTROLLER
+* Name :Rithiga sri.B  
+* Roll no:212221230083  
+* Date of experiment :07.10.2022
 
-Ex. No. : 3
-Date: 
  
-### Aim: To Interface a Digital input (pushbutton ) to LPC2148 ARM 7 and write a code to switch on and of an LED 
-Components required: Proteus ISIS professional suite, Kiel μ vision 5 Development environment 
-### Theory 
+## AIM: 
+To Interface a Digital input (pushbutton ) to LPC2148 ARM 7 and write a code to switch on and of an LED 
+## COMPONENTS REQUIRED: 
+* Proteus ISIS professional suite
+* Kiel μ vision 5 Development environment 
+## THEORY:
 The full form of an ARM is an advanced reduced instruction set computer (RISC) machine, and it is a 32-bit processor architecture expanded by ARM holdings. The applications of an ARM processor include several microcontrollers as well as processors. The architecture of an ARM processor was licensed by many corporations for designing ARM processor-based SoC products and CPUs. This allows the corporations to manufacture their products using ARM architecture. Likewise, all main semiconductor companies will make ARM-based SOCs such as Samsung, Atmel, TI etc.
 
 
@@ -39,7 +40,7 @@ The main features of LPC2148 include the following.
 
 
 
-### Procedure:
+## PROCEDURE:
 For creation of project on    Kiel μ vision 5 Development environment (LPC21 XX/48/38)
 1.	Click on the menu Project — New µVision Project creates a new project. Select an empty folder and enter the project name, for example Project1. It is good practice to use a separate folder for each project.
 2.	Next, the dialog Select Device for Target opens.
@@ -115,13 +116,40 @@ Figure -11 Hex file for simulation
 Step 9: Select the hex file from the Kiel program folder and import the program in to the microcontroller as shown in figure 11 ,  debug and if no errors in connections are found, run the VSM simulation to view the output.
 
 
-### Kiel - Program  
+## KIEL PROGRAM: 
+```
+#include <LPC214x.h>   // define LPC2148 Header file
+#define led (1<<2)     // led macro for pin 2 of port0
+#define sw (1<<10)     // sw macro for pin 10 of port0
+int main(void)
+{
+	unsigned int x;
+	IO0DIR|=(~sw);   // configure P1.24 - P1.31 as input
+	IO0DIR|=led;     // configure P1.16 - P1.23 as output
+	while(1)
+	{
+		x = IOPIN0 & sw;   //save status of sw in variable x
+		if(x==sw)          // if switch open
+		{
+			IOCLR0|=led; // LED off
+		}
+		else               // if switch close
+		{
+			IOSET0 = led;  // LED on
+		}
+	}
+}
+```
+## OUTPUT:
+* BEFORE SWITCHING ON LED:
+![output](./pic1.png)
+* AFTER SWITCHING ON LED:
+![output](./pic2.png)
+
+## RESULT:
+Interfacing a digital output with ARM microcontroller is executed.
 
 
-### Result :
-Interfacing a digital output with ARM microcontroller is executed 
-
-### Output screen shots :
 
 
 
