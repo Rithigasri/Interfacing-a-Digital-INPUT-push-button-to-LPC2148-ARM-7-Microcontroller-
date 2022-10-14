@@ -118,27 +118,33 @@ Step 9: Select the hex file from the Kiel program folder and import the program 
 
 ## KIEL PROGRAM: 
 ```
-#include <LPC214x.h>   // define LPC2148 Header file
-#define led (1<<2)     // led macro for pin 2 of port0
-#define sw (1<<10)     // sw macro for pin 10 of port0
-int main(void)
+#include <lpc214x.h>
+
+// Input switches
+#define SW1	0x00010000				// P1.16
+
+// Output LEDs
+#define LED_D9	0x00000400 			// P0.10
+
+int main ()
 {
-	unsigned int x;
-	IO0DIR|=(~sw);   // configure P1.24 - P1.31 as input
-	IO0DIR|=led;     // configure P1.16 - P1.23 as output
+	IO0DIR = 0x003C3C00 ;			// Configure P0.10 to P0.13 and P0.18 to P0.21 as Output	
+	IO0SET = 0x003C3C00 ;			// SET (1) P0.10 to P0.13 and P0.18 to P0.21, LEDs OFF
 	while(1)
 	{
-		x = IOPIN0 & sw;   //save status of sw in variable x
-		if(x==sw)          // if switch open
+		
+		if(!(IO1PIN & SW1))			// Check whether SW1 is pressed or not
 		{
-			IOCLR0|=led; // LED off
+			IO0CLR = LED_D9 ;		// LED D9, ON if SW1 pressed
 		}
-		else               // if switch close
+		else
 		{
-			IOSET0 = led;  // LED on
+			IO0SET = LED_D9 ;		// LED D9, OFF if SW1 released
 		}
+		
 	}
 }
+
 ```
 ## OUTPUT:
 * BEFORE SWITCHING ON LED:
